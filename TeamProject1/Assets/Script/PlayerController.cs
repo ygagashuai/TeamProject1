@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,8 +14,15 @@ public class PlayerController : MonoBehaviour
     public float jumpH = 5f;
     bool jump;
 
+    public float DoubleJump = 2f;
 
-    
+    public float DashDis = 15f;
+
+    public float CoolDownDash = 3f;
+
+    bool dashing = false;
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -26,23 +34,54 @@ public class PlayerController : MonoBehaviour
     {
         // player movement in horizontral
         dirx = Input.GetAxisRaw("Horizontal");
-        rb.linearVelocity = new Vector2(dirx * speed, rb.linearVelocity.y);
-
-        //jump 
-        if (Input.GetButtonDown("Jump") && jump == true)
+        if (!dashing)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpH);
-            jump = false;
+            rb.linearVelocity = new Vector2(dirx * speed, rb.linearVelocity.y);
         }
 
+        //jump 
+        if (Input.GetButtonDown("Jump") && jump == true && DoubleJump >= 0)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpH);
+            DoubleJump -= 1;
+            if (DoubleJump == 0)
+            {
+                jump = false;
 
+            }
+            
+        }
+        CoolDownDash += Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.K) && CoolDownDash >= 3)
+        {
+            dashing = true;
+
+            if (dirx > 0)
+            {
+                rb.linearVelocity = new Vector2(DashDis, 0);
+            }
+            else if (dirx < 0)
+            {
+                rb.linearVelocity = new Vector2(-DashDis, 0);
+            }
+
+            CoolDownDash = 0;
+            Invoke("StopDash", 0.2f);
+        }
+
+    }
+    void StopDash()
+    {
+        dashing = false;
     }
     //player only can jump after touch ground
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Ground")
+        if (collision.gameObject.tag == "Ground" && DoubleJump >= 0)
         {
+
             jump = true;
+            DoubleJump = 2;
         }
     }
 

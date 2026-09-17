@@ -522,6 +522,9 @@ MonoBehaviour:
   dirx: 0
   speed: 5
   jumpH: 5
+  DoubleJump: 2
+  DashDis: 15
+  CoolDownDash: 3
 --- !u!1 &1577511950
 GameObject:
   m_ObjectHideFlags: 0
