@@ -1,5 +1,7 @@
 using UnityEngine;
 using static Unity.Burst.Intrinsics.X86.Avx;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -22,6 +24,10 @@ public class PlayerController : MonoBehaviour
 
     bool dashing = false;
 
+    [SerializeField] private Text HealthText;
+
+    public float Health = 5f;
+
 
     void Start()
     {
@@ -32,6 +38,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        HealthText.text = "Health : " + Health;
         // player movement in horizontral
         dirx = Input.GetAxisRaw("Horizontal");
         if (!dashing)
@@ -51,6 +58,7 @@ public class PlayerController : MonoBehaviour
             }
             
         }
+
         CoolDownDash += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.K) && CoolDownDash >= 3)
         {
@@ -58,11 +66,11 @@ public class PlayerController : MonoBehaviour
 
             if (dirx > 0)
             {
-                rb.linearVelocity = new Vector2(DashDis, 0);
+                rb.linearVelocity = new Vector2(DashDis, 0);//dash right
             }
             else if (dirx < 0)
             {
-                rb.linearVelocity = new Vector2(-DashDis, 0);
+                rb.linearVelocity = new Vector2(-DashDis, 0);//dash left
             }
 
             CoolDownDash = 0;
@@ -83,6 +91,14 @@ public class PlayerController : MonoBehaviour
             jump = true;
             DoubleJump = 2;
         }
+        //Decrease health when hit by the enemy
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+
+            Health -= 1;
+
+        }
     }
+
 
 }
