@@ -28,6 +28,10 @@ public class PlayerController : MonoBehaviour
 
     public float Health = 5f;
 
+    [SerializeField] private Text DashText;
+
+    public float Dash = 0f;
+
 
     void Start()
     {
@@ -39,6 +43,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         HealthText.text = "Health : " + Health;
+        DashText.text = "Dash : " + Dash;
         // player movement in horizontral
         dirx = Input.GetAxisRaw("Horizontal");
         if (!dashing)
@@ -60,11 +65,15 @@ public class PlayerController : MonoBehaviour
         }
 
         CoolDownDash += Time.deltaTime;
+        if(CoolDownDash >= 3)
+        {
+            Dash = 1;
+        }
         if (Input.GetKeyDown(KeyCode.K) && CoolDownDash >= 3)
         {
             dashing = true;
 
-            if (dirx > 0)
+            if (dirx >= 0)
             {
                 rb.linearVelocity = new Vector2(DashDis, 0);//dash right
             }
@@ -73,7 +82,9 @@ public class PlayerController : MonoBehaviour
                 rb.linearVelocity = new Vector2(-DashDis, 0);//dash left
             }
 
+
             CoolDownDash = 0;
+            Dash = 0;
             Invoke("StopDash", 0.2f);
         }
 
