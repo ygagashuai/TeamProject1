@@ -11,5 +11,12 @@ public class StartButton : MonoBehaviour
 
     }
 
+    public void BackToTitle()
+    {
+        SceneManager.LoadScene("StartMenu");
+
+    }
+
+
 
 }

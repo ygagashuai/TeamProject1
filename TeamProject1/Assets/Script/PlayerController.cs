@@ -32,6 +32,12 @@ public class PlayerController : MonoBehaviour
 
     public float Dash = 0f;
 
+    public float ShootAbility = 0f;
+
+    [SerializeField] private Text AbilityText;
+
+
+
 
     void Start()
     {
@@ -107,6 +113,20 @@ public class PlayerController : MonoBehaviour
         {
 
             Health -= 1;
+
+        }
+        //load end scenes when touch end point
+        if (collision.gameObject.CompareTag("End Point"))
+        {
+
+            SceneManager.LoadScene("EndScenes");
+
+        }
+
+        if (collision.gameObject.CompareTag("ShootAbility"))
+        {
+
+            ShootAbility += 1;
 
         }
     }
