@@ -36,6 +36,16 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Text AbilityText;
 
+    public float ShootTime = 0f;
+
+    public float StartCount = 0f;
+
+    public GameObject BulletPrefab;
+
+    public Transform FirePoint;
+
+    public float BulletSpeed = 10f;
+
 
 
 
@@ -94,10 +104,42 @@ public class PlayerController : MonoBehaviour
             Invoke("StopDash", 0.2f);
         }
 
+        if (Input.GetKeyDown(KeyCode.J) && ShootAbility >= 1)
+        {
+
+            Shoot();
+            StartCount = 1f;
+
+            
+
+        }
+        if (StartCount == 1)
+        {
+            ShootTime += Time.deltaTime;
+            if (ShootTime >= 5)
+            {
+                StartCount = 0;
+                ShootAbility -= 1f;
+                ShootTime = 0;
+
+            }
+        }
+
+
     }
     void StopDash()
     {
         dashing = false;
+    }
+
+    void Shoot()
+    {
+        GameObject bullet = Instantiate(BulletPrefab, FirePoint.position, FirePoint.rotation);
+
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+
+        rb.linearVelocity = FirePoint.right * BulletSpeed;
+        
     }
     //player only can jump after touch ground
     private void OnCollisionEnter2D(Collision2D collision)
@@ -112,7 +154,16 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
 
-            Health -= 1;
+            
+            if (rb.linearVelocity.y <= 0)
+            {
+                // Destroy the enemy
+                Destroy(collision.gameObject);
+            }
+            else
+            {
+                Health -= 1;
+            }
 
         }
         //load end scenes when touch end point
@@ -127,7 +178,7 @@ public class PlayerController : MonoBehaviour
         {
 
             ShootAbility += 1;
-
+            
         }
     }
 
