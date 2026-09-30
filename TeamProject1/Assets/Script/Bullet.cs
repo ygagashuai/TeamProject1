@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Destroy(gameObject, LifeTime);
+        Destroy(gameObject, LifeTime);//after 2 second destory the bullet
     }
 
     // Update is called once per frame
@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour
     {
         
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)// kill  enemy when bullet hit enemy and destory bullet when hit
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {

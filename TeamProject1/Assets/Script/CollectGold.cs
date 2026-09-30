@@ -21,12 +21,14 @@ public class CollectGold : MonoBehaviour
     {
        
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)//destory gold when touch and gain gold also show on the hud
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             Destroy(gameObject);
+
             Gold++;
+
             GoldText.text = "Gold : " + Gold;
 
         }

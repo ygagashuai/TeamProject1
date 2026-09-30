@@ -5,13 +5,13 @@ public class StartButton : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-    public void OnMyButtonClick()
+    public void OnMyButtonClick()// press button to load the game scene
     {
         SceneManager.LoadScene("GameScenes");
 
     }
 
-    public void BackToTitle()
+    public void BackToTitle()// press button to get back to title when end
     {
         SceneManager.LoadScene("StartMenu");
 

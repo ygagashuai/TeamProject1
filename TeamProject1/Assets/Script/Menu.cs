@@ -19,7 +19,7 @@ public class Menu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))// press esc to show the pause menu
         {
             if (ExitConfirmation.activeSelf)
             {
@@ -36,27 +36,27 @@ public class Menu : MonoBehaviour
         }
     }
 
-    public void PauseGame()
+    public void PauseGame()// press to show the pause menu
     {
         isPaused = true;
         PauseMenu.SetActive(true);//show pause menu
-        Time.timeScale = 0f;
+        Time.timeScale = 0f;// freeze the game
     }
-    public void ResumeGame()
+    public void ResumeGame()//get back to game
     {
         isPaused = false;
-        PauseMenu.SetActive(false);//close the panle
-        ExitConfirmation.SetActive(false);
-        Time.timeScale = 1f;
+        PauseMenu.SetActive(false);//close the menu or menu
+        ExitConfirmation.SetActive(false);// does't show exit confirmation page
+        Time.timeScale = 1f;// stop pause
     }
     public void ShowExitConfirmation()
     {
-        ExitConfirmation.SetActive(true);
+        ExitConfirmation.SetActive(true);// show the exit confirmation page
     }
 
     public void CancelExit()
     {
-        ExitConfirmation.SetActive(false);
+        ExitConfirmation.SetActive(false);// close exit confirmation page
     }
 
     public void ExitGame()

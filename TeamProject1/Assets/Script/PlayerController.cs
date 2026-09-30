@@ -11,40 +11,36 @@ public class PlayerController : MonoBehaviour
 
     public float dirx = 0f;
 
-    public float speed = 5f;
+    public float speed = 5f;//speed for player
 
-    public float jumpH = 5f;
+    public float jumpH = 5f;//jump high
     bool jump;
+    public float DoubleJump = 2f;//double jump 
 
-    public float DoubleJump = 2f;
-
-    public float DashDis = 15f;
-
-    public float CoolDownDash = 3f;
-
+    public float DashDis = 15f;//dash distances
+    public float CoolDownDash = 3f;// cool down for dash
     bool dashing = false;
 
-    [SerializeField] private Text HealthText;
-
+    [SerializeField] private Text HealthText;//show health
     public float Health = 5f;
 
-    [SerializeField] private Text DashText;
+    [SerializeField] private Text DashText;// show dash
 
     public float Dash = 0f;
 
-    public float ShootAbility = 0f;
+    public float ShootAbility = 0f;//
 
-    [SerializeField] private Text AbilityText;
+    [SerializeField] private Text AbilityText;// show shoot ability
 
-    public float ShootTime = 0f;
+    public float ShootTime = 0f;//shoot time 
 
     public float StartCount = 0f;
 
-    public GameObject BulletPrefab;
+    public GameObject BulletPrefab;// prefab for bullet
 
-    public Transform FirePoint;
+    public Transform FirePoint;// where bullet shoot
 
-    public float BulletSpeed = 10f;
+    public float BulletSpeed = 10f;//bullet speed
 
 
 
@@ -59,7 +55,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         HealthText.text = "Health : " + Health;
+
         DashText.text = "Dash : " + Dash;
+
+        AbilityText.text = "Shoot Ability :" + ShootAbility;
+
         // player movement in horizontral
         dirx = Input.GetAxisRaw("Horizontal");
         if (!dashing)
@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = new Vector2(dirx * speed, rb.linearVelocity.y);
         }
 
-        //jump 
+        //jump and double jump
         if (Input.GetButtonDown("Jump") && jump == true && DoubleJump >= 0)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpH);
@@ -81,17 +81,18 @@ public class PlayerController : MonoBehaviour
         }
 
         CoolDownDash += Time.deltaTime;
-        if(CoolDownDash >= 3)
+        if(CoolDownDash >= 3)//dash cool down
         {
             Dash = 1;
         }
-        if (Input.GetKeyDown(KeyCode.K) && CoolDownDash >= 3)
+
+        if (Input.GetKeyDown(KeyCode.K) && CoolDownDash >= 3)//press k to dash when cool down > 3
         {
             dashing = true;
 
             if (dirx >= 0)
             {
-                rb.linearVelocity = new Vector2(DashDis, 0);//dash right
+                rb.linearVelocity = new Vector2(DashDis, 0);//dash right when no moving or move to right
             }
             else if (dirx < 0)
             {
@@ -104,16 +105,14 @@ public class PlayerController : MonoBehaviour
             Invoke("StopDash", 0.2f);
         }
 
-        if (Input.GetKeyDown(KeyCode.J) && ShootAbility >= 1)
+        if (Input.GetKeyDown(KeyCode.J) && ShootAbility >= 1)// press j to shoot when player have shoot Ability 
         {
 
             Shoot();
             StartCount = 1f;
 
-            
-
         }
-        if (StartCount == 1)
+        if (StartCount == 1)// start count , when player shoot after 5 second stop shoot 
         {
             ShootTime += Time.deltaTime;
             if (ShootTime >= 5)
@@ -127,24 +126,24 @@ public class PlayerController : MonoBehaviour
 
 
     }
-    void StopDash()
+    void StopDash()//stop dash
     {
         dashing = false;
     }
 
-    void Shoot()
+    void Shoot()// shooting 
     {
-        GameObject bullet = Instantiate(BulletPrefab, FirePoint.position, FirePoint.rotation);
+        GameObject bullet = Instantiate(BulletPrefab, FirePoint.position, FirePoint.rotation);// bullet shoot , position 
 
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
 
         rb.linearVelocity = FirePoint.right * BulletSpeed;
         
     }
-    //player only can jump after touch ground
+   
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Ground" && DoubleJump >= 0)
+        if (collision.gameObject.tag == "Ground" && DoubleJump >= 0) //player only can jump after touch ground
         {
 
             jump = true;
@@ -153,8 +152,6 @@ public class PlayerController : MonoBehaviour
         //Decrease health when hit by the enemy
         if (collision.gameObject.CompareTag("Enemy"))
         {
-
-            
             if (rb.linearVelocity.y <= 0)
             {
                 // Destroy the enemy
@@ -173,12 +170,15 @@ public class PlayerController : MonoBehaviour
             SceneManager.LoadScene("EndScenes");
 
         }
-
+        // get shoot ability when touch shootability item and show on the hud
         if (collision.gameObject.CompareTag("ShootAbility"))
         {
+            Destroy(collision.gameObject);
 
             ShootAbility += 1;
-            
+
+            AbilityText.text = "Shoot Ability :" + ShootAbility;
+
         }
     }
 
