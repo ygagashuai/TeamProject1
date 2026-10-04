@@ -10,8 +10,10 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
 
     public float dirx = 0f;
-
     public float speed = 5f;//speed for player
+
+    public float knockbackForce = 8f;
+    public bool knockedBack = false;
 
     public float jumpH = 5f;//jump high
     bool jump;
@@ -23,6 +25,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Text HealthText;//show health
     public float Health = 5f;
+    public Image HealthBar;
+    private float MaxHealth, CureentHealt;
 
     [SerializeField] private Text DashText;// show dash
 
@@ -49,12 +53,15 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         jump = true;
+
+        MaxHealth = 100f;
+        CureentHealt = MaxHealth;
     }
 
     // Update is called once per frame
     void Update()
     {
-        HealthText.text = "Health : " + Health;
+        HealthText.text = "Health : " + MaxHealth;
 
         DashText.text = "Dash : " + Dash;
 
@@ -62,7 +69,7 @@ public class PlayerController : MonoBehaviour
 
         // player movement in horizontral
         dirx = Input.GetAxisRaw("Horizontal");
-        if (!dashing)
+        if (!dashing && !knockedBack)//player move when not dash and knockbak
         {
             rb.linearVelocity = new Vector2(dirx * speed, rb.linearVelocity.y);
         }
@@ -130,7 +137,19 @@ public class PlayerController : MonoBehaviour
     {
         dashing = false;
     }
+    public void Knockback(float direction)
+    {
+        knockedBack = true;
 
+        rb.linearVelocity = new Vector2(direction * knockbackForce,rb.linearVelocity.y);
+
+        Invoke(nameof(EndKnockback), 0.2f);
+    }
+
+    void EndKnockback()
+    {
+        knockedBack = false;
+    }
     void Shoot()// shooting 
     {
         GameObject bullet = Instantiate(BulletPrefab, FirePoint.position, FirePoint.rotation);// bullet shoot , position 
@@ -139,6 +158,12 @@ public class PlayerController : MonoBehaviour
 
         rb.linearVelocity = FirePoint.right * BulletSpeed;
         
+    }
+    void ChangeHealth(float delat)
+    {
+        CureentHealt = Mathf.Clamp(CureentHealt + delat, 0, MaxHealth);
+
+        HealthBar.fillAmount = CureentHealt/MaxHealth;
     }
    
     private void OnCollisionEnter2D(Collision2D collision)
@@ -152,16 +177,25 @@ public class PlayerController : MonoBehaviour
         //Decrease health when hit by the enemy
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            if (rb.linearVelocity.y <= 0)
+            ContactPoint2D contact = collision.GetContact(0);
+
+
+            if (contact.normal.y > 0.5f && rb.linearVelocity.y <= 0)
             {
                 // Destroy the enemy
                 Destroy(collision.gameObject);
             }
             else
             {
-                Health -= 1;
+                ChangeHealth(-20);
+                MaxHealth -= 20f;
             }
 
+        }
+        if (collision.gameObject.CompareTag("Ball"))
+        {
+            ChangeHealth(-20);
+            MaxHealth -= 20f;
         }
         //load end scenes when touch end point
         if (collision.gameObject.CompareTag("End Point"))
@@ -180,6 +214,8 @@ public class PlayerController : MonoBehaviour
             AbilityText.text = "Shoot Ability :" + ShootAbility;
 
         }
+
+
     }
 
 

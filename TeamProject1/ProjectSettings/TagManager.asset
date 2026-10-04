@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - End Point
   - ShootAbility
+  - Ball
   layers:
   - Default
   - TransparentFX
