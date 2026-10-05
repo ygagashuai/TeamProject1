@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Text HealthText;//show health
     public float Health = 5f;
     public Image HealthBar;
-    private float MaxHealth, CureentHealt;
+    private float MaxHealth, CureentHealth;
 
     [SerializeField] private Text DashText;// show dash
 
@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
         jump = true;
 
         MaxHealth = 100f;
-        CureentHealt = MaxHealth;
+        CureentHealth = MaxHealth;
     }
 
     // Update is called once per frame
@@ -159,11 +159,11 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = FirePoint.right * BulletSpeed;
         
     }
-    void ChangeHealth(float delat)
+    void ChangeHealth(float delat)//change the health
     {
-        CureentHealt = Mathf.Clamp(CureentHealt + delat, 0, MaxHealth);
+        CureentHealth = Mathf.Clamp(CureentHealth + delat, 0, MaxHealth);
 
-        HealthBar.fillAmount = CureentHealt/MaxHealth;
+        HealthBar.fillAmount = CureentHealth/MaxHealth;
     }
    
     private void OnCollisionEnter2D(Collision2D collision)
@@ -185,14 +185,14 @@ public class PlayerController : MonoBehaviour
                 // Destroy the enemy
                 Destroy(collision.gameObject);
             }
-            else
+            else//if not kill the enemy then decrease health
             {
                 ChangeHealth(-20);
                 MaxHealth -= 20f;
             }
 
         }
-        if (collision.gameObject.CompareTag("Ball"))
+        if (collision.gameObject.CompareTag("Ball"))//decrease the health when player by the enemy ball
         {
             ChangeHealth(-20);
             MaxHealth -= 20f;

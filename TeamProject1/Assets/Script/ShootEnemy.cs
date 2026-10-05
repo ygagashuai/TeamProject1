@@ -9,11 +9,15 @@ public class ShootEnemy : MonoBehaviour
     public GameObject BulletPrefab;// prefab for bullet
 
     public Transform FirePoint;// where bullet shoot
+    public Transform FirePointLeft;
+
 
     public float BulletSpeed = 10f;//bullet speed
 
     public float ShootCooldown = 2f;
     private float shootTimer = 0f;
+
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -38,19 +42,37 @@ public class ShootEnemy : MonoBehaviour
 
         float distance = Vector2.Distance(transform.position, player.position);
 
-        if (distance < DectRange && shootTimer <= 0f)
+        if (distance < DectRange && shootTimer <= 0f)//if the player close to the shootenemy it start shoot
         {
             Shoot();
             shootTimer = ShootCooldown;
         }
         void Shoot()// shooting 
         {
-            GameObject bullet = Instantiate(BulletPrefab, FirePoint.position, FirePoint.rotation);// bullet shoot , position 
+            Transform firePoint;
+
+            //shoot when player in right
+            if (player.position.x > transform.position.x)
+            {
+                firePoint = FirePoint;
+            }
+            //shoot when player in left
+            else
+            {
+                firePoint = FirePointLeft;
+            }
+
+            GameObject bullet = Instantiate( BulletPrefab,firePoint.position,firePoint.rotation);
 
             Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
 
-            rb.linearVelocity = FirePoint.right * BulletSpeed;
-
+            rb.linearVelocity = firePoint.right * BulletSpeed;
         }
+
+
+
+
+
+    
     }
 }
