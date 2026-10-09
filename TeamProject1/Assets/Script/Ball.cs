@@ -12,17 +12,18 @@ public class Ball : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))//if ball hit the player , knock back the player
         {
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
 
-        if (player != null)
-        {
-            float direction = collision.transform.position.x - transform.position.x;
-            direction = Mathf.Sign(direction);
+            if (player != null)
+            {
+                float direction = collision.transform.position.x - transform.position.x;
 
-            player.Knockback(direction);
-        }
+                direction = Mathf.Sign(direction);
+
+                player.Knockback(direction);
+            }
         }
             
     }

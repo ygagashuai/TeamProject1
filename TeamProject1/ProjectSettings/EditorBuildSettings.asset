@@ -14,6 +14,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/EndScenes.unity
     guid: 73518dabaca38fa4fb61d516c78ecf8e
+  - enabled: 1
+    path: Assets/Scenes/LoseScenes.unity
+    guid: 2206cf92efd57124fb6bd42b0f5b68fd
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

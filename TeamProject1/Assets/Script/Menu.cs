@@ -21,7 +21,7 @@ public class Menu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))// press esc to show the pause menu
         {
-            if (ExitConfirmation.activeSelf)
+            if (ExitConfirmation.activeSelf)//it show the pause scene if didn't click exitbutton
             {
                 ExitConfirmation.SetActive(false);
             }
@@ -39,14 +39,19 @@ public class Menu : MonoBehaviour
     public void PauseGame()// press to show the pause menu
     {
         isPaused = true;
+
         PauseMenu.SetActive(true);//show pause menu
+
         Time.timeScale = 0f;// freeze the game
     }
     public void ResumeGame()//get back to game
     {
         isPaused = false;
+
         PauseMenu.SetActive(false);//close the menu or menu
+
         ExitConfirmation.SetActive(false);// does't show exit confirmation page
+
         Time.timeScale = 1f;// stop pause
     }
     public void ShowExitConfirmation()
@@ -63,6 +68,7 @@ public class Menu : MonoBehaviour
     {
 
         SceneManager.LoadScene("StartMenu");//back to start menu
+
         Time.timeScale = 1f;
     }
 }

@@ -40,11 +40,12 @@ public class ShootEnemy : MonoBehaviour
 
         shootTimer -= Time.deltaTime;
 
-        float distance = Vector2.Distance(transform.position, player.position);
+        float distance = Vector2.Distance(transform.position, player.position);//player position
 
         if (distance < DectRange && shootTimer <= 0f)//if the player close to the shootenemy it start shoot
         {
             Shoot();
+
             shootTimer = ShootCooldown;
         }
         void Shoot()// shooting 
@@ -62,16 +63,12 @@ public class ShootEnemy : MonoBehaviour
                 firePoint = FirePointLeft;
             }
 
-            GameObject bullet = Instantiate( BulletPrefab,firePoint.position,firePoint.rotation);
+            GameObject bullet = Instantiate( BulletPrefab,firePoint.position,firePoint.rotation);// sapwen the bulletb in this position
 
             Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
 
-            rb.linearVelocity = firePoint.right * BulletSpeed;
+            rb.linearVelocity = firePoint.right * BulletSpeed;//move bullet
         }
-
-
-
-
 
     
     }

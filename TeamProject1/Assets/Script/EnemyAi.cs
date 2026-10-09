@@ -29,6 +29,7 @@ public class EnemyAi : MonoBehaviour
             return;
 
         float distance = Vector2.Distance(transform.position, player.position);
+       
         //start chasing when close
         if (distance < DectRange)
         {

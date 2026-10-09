@@ -13,6 +13,7 @@ public class CollectGold : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //show the gold on the hud
         GoldText.text = "Gold : " + Gold;
     }
 

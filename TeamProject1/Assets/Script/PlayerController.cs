@@ -61,6 +61,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //all show the text on hud
         HealthText.text = "Health : " + MaxHealth;
 
         DashText.text = "Dash : " + Dash;
@@ -78,8 +79,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Jump") && jump == true && DoubleJump >= 0)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpH);
+
             DoubleJump -= 1;
-            if (DoubleJump == 0)
+
+            if (DoubleJump == 0)//after two jum, jump become false
             {
                 jump = false;
 
@@ -106,9 +109,10 @@ public class PlayerController : MonoBehaviour
                 rb.linearVelocity = new Vector2(-DashDis, 0);//dash left
             }
 
-
             CoolDownDash = 0;
+
             Dash = 0;
+
             Invoke("StopDash", 0.2f);
         }
 
@@ -116,19 +120,27 @@ public class PlayerController : MonoBehaviour
         {
 
             Shoot();
+
             StartCount = 1f;
 
         }
-        if (StartCount == 1)// start count , when player shoot after 5 second stop shoot 
+        if (StartCount == 1)// start count , when player shoot after 5 second stop shooting 
         {
             ShootTime += Time.deltaTime;
             if (ShootTime >= 5)
             {
                 StartCount = 0;
+
                 ShootAbility -= 1f;
+
                 ShootTime = 0;
 
             }
+        }
+        //load losescenes when the health equal 0
+        if(MaxHealth == 0 | CureentHealth == 0)
+        {
+            SceneManager.LoadScene("LoseScenes");
         }
 
 
@@ -137,26 +149,26 @@ public class PlayerController : MonoBehaviour
     {
         dashing = false;
     }
-    public void Knockback(float direction)
+    public void Knockback(float direction)// applies knockback to the player when hit
     {
         knockedBack = true;
 
-        rb.linearVelocity = new Vector2(direction * knockbackForce,rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(direction * knockbackForce,rb.linearVelocity.y);// applies horizontal velocity to push the player
 
-        Invoke(nameof(EndKnockback), 0.2f);
+        Invoke(nameof(EndKnockback), 0.2f);//end in 0.2 second
     }
 
-    void EndKnockback()
+    void EndKnockback()// no knockback
     {
         knockedBack = false;
     }
     void Shoot()// shooting 
     {
-        GameObject bullet = Instantiate(BulletPrefab, FirePoint.position, FirePoint.rotation);// bullet shoot , position 
+        GameObject bullet = Instantiate(BulletPrefab, FirePoint.position, FirePoint.rotation);// sapwen the bulletb in this position 
 
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
 
-        rb.linearVelocity = FirePoint.right * BulletSpeed;
+        rb.linearVelocity = FirePoint.right * BulletSpeed;//move bullet
         
     }
     void ChangeHealth(float delat)//change the health
@@ -172,6 +184,7 @@ public class PlayerController : MonoBehaviour
         {
 
             jump = true;
+
             DoubleJump = 2;
         }
         //Decrease health when hit by the enemy
@@ -188,13 +201,15 @@ public class PlayerController : MonoBehaviour
             else//if not kill the enemy then decrease health
             {
                 ChangeHealth(-20);
+
                 MaxHealth -= 20f;
             }
 
         }
-        if (collision.gameObject.CompareTag("Ball"))//decrease the health when player by the enemy ball
+        if (collision.gameObject.CompareTag("Ball"))//decrease the health when player hit by the enemy ball
         {
             ChangeHealth(-20);
+
             MaxHealth -= 20f;
         }
         //load end scenes when touch end point
