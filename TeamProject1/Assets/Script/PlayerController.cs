@@ -6,7 +6,12 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-
+    public enum CM //What mode/powerup the player is currently in
+    {
+        Base = 0,
+        Dog = 1,
+        Bird = 2
+    }
     private Rigidbody2D rb;
 
     public float dirx = 0f;
@@ -26,7 +31,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Text HealthText;//show health
     public float Health = 5f;
     public Image HealthBar;
-    private float MaxHealth, CureentHealth;
+    private float MaxHealth, CurrentHealth;
 
     [SerializeField] private Text DashText;// show dash
 
@@ -37,16 +42,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Text AbilityText;// show shoot ability
 
     public float ShootTime = 0f;//shoot time 
-
     public float StartCount = 0f;
 
     public GameObject BulletPrefab;// prefab for bullet
 
     public Transform FirePoint;// where bullet shoot
 
+    public float DogTimer = 15f;
+    public float DogTimerMax = 15f;
+    public float BirdTimer = 10f;
+    public float BirdTimerMax = 15f;
+    public float currentYValue;
     public float BulletSpeed = 10f;//bullet speed
 
-
+    public CM Mode = CM.Base;//Variable for the player's current mode.
 
 
     void Start()
@@ -55,7 +64,7 @@ public class PlayerController : MonoBehaviour
         jump = true;
 
         MaxHealth = 100f;
-        CureentHealth = MaxHealth;
+        CurrentHealth = MaxHealth;
     }
 
     // Update is called once per frame
@@ -68,18 +77,63 @@ public class PlayerController : MonoBehaviour
 
         AbilityText.text = "Shoot Ability :" + ShootAbility;
 
+
+
+        if (Mode == CM.Base)//Checks if player is in no forms, then changes values accordingly
+        {
+            speed = 5f;
+            jumpH = 5f;
+            rb.gravityScale = 1f;
+            DashDis = 15f;
+        }
+        else if (Mode == CM.Dog)//Checks if player is in the Dog form, then changes values accordingly
+        {
+            speed = 12f;
+            jumpH = 8f;
+            DashDis = 40f;
+            DogTimer = 15f;
+        }
+        else if (Mode == CM.Bird)//Checks if player is in Bird form, then changes values accordingly
+        {
+            BirdTimer = 10f;
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                currentYValue = rb.position.y; //Gets the current vertical position of the player
+            }
+            if (Input.GetKey(KeyCode.L))
+            {
+                rb.linearVelocityY = 0f; //locks the player's position until the button is let go
+            }
+        }
         // player movement in horizontral
         dirx = Input.GetAxisRaw("Horizontal");
         if (!dashing && !knockedBack)//player move when not dash and knockbak
         {
             rb.linearVelocity = new Vector2(dirx * speed, rb.linearVelocity.y);
         }
+        if (DogTimer >= 0f) //Timer until the dog form ends.
+        {
+            DogTimer -= Time.deltaTime;
+            if (DogTimer < 0f && Mode == CM.Dog)//Ends dog form.
+            {
+                Mode = CM.Base;
+                DogTimer = DogTimerMax;
+            }
+        }
+        if (BirdTimer >= 0f)
+        {
+            BirdTimer -= Time.deltaTime;
+            if(BirdTimer < 0f && Mode == CM.Bird)
+            {
+                Mode = CM.Base;
+                BirdTimer = BirdTimerMax;
+            }
+        }
 
         //jump and double jump
         if (Input.GetButtonDown("Jump") && jump == true && DoubleJump >= 0)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpH);
-
             DoubleJump -= 1;
 
             if (DoubleJump == 0)//after two jum, jump become false
@@ -87,11 +141,20 @@ public class PlayerController : MonoBehaviour
                 jump = false;
 
             }
-            
-        }
 
+        }
+        if (Input.GetKeyDown(KeyCode.G) && Mode == CM.Base) //Dog form testing button
+        {
+            SetMode(CM.Dog);
+
+        }
+        if (Input.GetKeyDown(KeyCode.B) && Mode == CM.Base) //Dog form testing button
+        {
+            SetMode(CM.Bird);
+
+        }
         CoolDownDash += Time.deltaTime;
-        if(CoolDownDash >= 3)//dash cool down
+        if (CoolDownDash >= 3)//dash cool down
         {
             Dash = 1;
         }
@@ -138,7 +201,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         //load losescenes when the health equal 0
-        if(MaxHealth == 0 | CureentHealth == 0)
+        if (MaxHealth == 0 | CurrentHealth == 0)
         {
             SceneManager.LoadScene("LoseScenes");
         }
@@ -153,8 +216,7 @@ public class PlayerController : MonoBehaviour
     {
         knockedBack = true;
 
-        rb.linearVelocity = new Vector2(direction * knockbackForce,rb.linearVelocity.y);// applies horizontal velocity to push the player
-
+        rb.linearVelocity = new Vector2(direction * knockbackForce, rb.linearVelocity.y);// applies horizontal velocity to push the player
         Invoke(nameof(EndKnockback), 0.2f);//end in 0.2 second
     }
 
@@ -169,15 +231,19 @@ public class PlayerController : MonoBehaviour
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
 
         rb.linearVelocity = FirePoint.right * BulletSpeed;//move bullet
-        
+
     }
     void ChangeHealth(float delat)//change the health
     {
-        CureentHealth = Mathf.Clamp(CureentHealth + delat, 0, MaxHealth);
+        CurrentHealth = Mathf.Clamp(CurrentHealth + delat, 0, MaxHealth);
 
-        HealthBar.fillAmount = CureentHealth/MaxHealth;
+        HealthBar.fillAmount = CurrentHealth / MaxHealth;
     }
-   
+    public void SetMode(CM m)//Function to change the player's form.
+    {
+        Mode = m;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Ground" && DoubleJump >= 0) //player only can jump after touch ground

@@ -5,6 +5,9 @@ public class EnemyAi : MonoBehaviour
     public float DectRange = 5f;
 
     public float Speed = 3f;
+    public float TeleportTimer = 3f;
+    public float TeleportTimerMax = 3f;
+    public float TeleportRange = 7f;
 
     private Transform player;
 
@@ -15,7 +18,7 @@ public class EnemyAi : MonoBehaviour
         //find player
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
 
-        //player positipon
+        //player position
         if (playerObject != null)
         {
             player = playerObject.transform;
@@ -29,13 +32,19 @@ public class EnemyAi : MonoBehaviour
             return;
 
         float distance = Vector2.Distance(transform.position, player.position);
-       
+        TeleportTimer -= Time.deltaTime;
+
         //start chasing when close
         if (distance < DectRange)
         {
             Vector2 direction = (player.position - transform.position).normalized;
 
             transform.position += (Vector3)direction * Speed * Time.deltaTime;
+            if (TeleportTimer < 0)
+            {
+                transform.position = player.position + new Vector3(0, 4, 0);
+                TeleportTimer = TeleportTimerMax;
+            }
         }
     }
 }
