@@ -23,5 +23,11 @@ public class StartButton : MonoBehaviour
     }
 
 
+    public void NextLevel()//move to second level
+    {
+        SceneManager.LoadScene("Level2");
+    }
+
+
 
 }

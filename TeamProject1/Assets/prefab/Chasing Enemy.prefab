@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 8401776304978452040}
   - component: {fileID: 3442598580577745170}
   - component: {fileID: 7486293416741191704}
+  - component: {fileID: 8327827026071600486}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Chasing Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -174,10 +175,35 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5146034365237514043}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e330681ce1d6cb9499b57e3d5b4677d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAi
   DectRange: 5
   Speed: 3
+  dashTimer: 2
+  dashTimerMax: 2
+  dashDis: 15
+  dashDetectionDistance: 3
+  dashDuration: 0.5
+  enemyRB: {fileID: 0}
+--- !u!114 &8327827026071600486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5146034365237514043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2efd9352dd5e8864b988cc655abe4297, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAi1
+  DectRange: 7
+  Speed: 3.5
+  TeleportTimer: 5
+  TeleportTimerMax: 5
+  TeleportRange: 7
+  TeleportMinRange: 5
+  distance: 0
