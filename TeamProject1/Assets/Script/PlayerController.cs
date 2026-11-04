@@ -91,11 +91,9 @@ public class PlayerController : MonoBehaviour
             speed = 12f;
             jumpH = 8f;
             DashDis = 40f;
-            DogTimer = 15f;
         }
         else if (Mode == CM.Bird)//Checks if player is in Bird form, then changes values accordingly
         {
-            BirdTimer = 10f;
             if (Input.GetKeyDown(KeyCode.L))
             {
                 currentYValue = rb.position.y; //Gets the current vertical position of the player
@@ -219,6 +217,7 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = new Vector2(direction * knockbackForce, rb.linearVelocity.y);// applies horizontal velocity to push the player
         Invoke(nameof(EndKnockback), 0.2f);//end in 0.2 second
     }
+    
 
     void EndKnockback()// no knockback
     {
@@ -242,6 +241,14 @@ public class PlayerController : MonoBehaviour
     public void SetMode(CM m)//Function to change the player's form.
     {
         Mode = m;
+        if (m == CM.Dog)
+        {
+            DogTimer = DogTimerMax;
+        }
+        if(m == CM.Bird)
+        {
+            BirdTimer = BirdTimerMax;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -294,6 +301,14 @@ public class PlayerController : MonoBehaviour
 
             AbilityText.text = "Shoot Ability :" + ShootAbility;
 
+        }
+        if (collision.gameObject.CompareTag("DogPickup"))
+        {
+            SetMode(CM.Dog);
+        }
+        if (collision.gameObject.CompareTag("BirdPickup"))
+        {
+            SetMode(CM.Bird);
         }
 
 

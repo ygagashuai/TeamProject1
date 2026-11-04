@@ -9,6 +9,8 @@ TagManager:
   - End Point
   - ShootAbility
   - Ball
+  - BirdPickup
+  - DogPickup
   layers:
   - Default
   - TransparentFX
