@@ -28,6 +28,10 @@ public class PlayerController : MonoBehaviour
     public float CoolDownDash = 3f;// cool down for dash
     bool dashing = false;
 
+    private bool IsRun;
+    private bool IsJump;
+    private Animator PlayerAnim;
+
     [SerializeField] private Text HealthText;//show health
     public float Health = 5f;
     public Image HealthBar;
@@ -57,6 +61,7 @@ public class PlayerController : MonoBehaviour
 
     public CM Mode = CM.Base;//Variable for the player's current mode.
 
+    
 
     void Start()
     {
@@ -65,6 +70,8 @@ public class PlayerController : MonoBehaviour
 
         MaxHealth = 100f;
         CurrentHealth = MaxHealth;
+
+        PlayerAnim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -105,6 +112,22 @@ public class PlayerController : MonoBehaviour
         }
         // player movement in horizontral
         dirx = Input.GetAxisRaw("Horizontal");
+
+        IsRun = dirx != 0f;// isrun = falsue when not moving , isrun = trun when moving
+        PlayerAnim.SetBool("IsRun", IsRun);//play animation
+
+        if (rb.linearVelocity.y > 0.3f)
+        {
+
+            IsJump = true;
+
+        }
+        else
+        {
+            IsJump = false;
+        }
+        PlayerAnim.SetBool("IsJump", IsJump);
+
         if (!dashing && !knockedBack)//player move when not dash and knockbak
         {
             rb.linearVelocity = new Vector2(dirx * speed, rb.linearVelocity.y);
@@ -128,15 +151,21 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        
+
         //jump and double jump
         if (Input.GetButtonDown("Jump") && jump == true && DoubleJump >= 0)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpH);
             DoubleJump -= 1;
 
+            
+            PlayerAnim.SetBool("IsJump", IsJump);
             if (DoubleJump == 0)//after two jum, jump become false
             {
                 jump = false;
+
+             
 
             }
 
