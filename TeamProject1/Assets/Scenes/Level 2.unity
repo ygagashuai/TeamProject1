@@ -3772,6 +3772,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8327827026071600486, guid: 1117072799146294f9138949d6d2752d, type: 3}
+      propertyPath: TeleportTimer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8327827026071600486, guid: 1117072799146294f9138949d6d2752d, type: 3}
+      propertyPath: TeleportTimerMax
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
