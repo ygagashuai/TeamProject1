@@ -2,6 +2,7 @@ using UnityEngine;
 using static Unity.Burst.Intrinsics.X86.Avx;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Runtime.CompilerServices;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,25 +14,25 @@ public class PlayerController : MonoBehaviour
         Bird = 2
     }
     private Rigidbody2D rb;
-
+    private SpriteRenderer sprite;
+    [Header("Movement Settings")]
     public float dirx = 0f;
+    private float leftDirection = -1f;
+    private float rightDirection = 1f;
     public float speed = 5f;//speed for player
-
     public float knockbackForce = 8f;
     public bool knockedBack = false;
-
     public float jumpH = 5f;//jump high
     bool jump;
     public float DoubleJump = 2f;//double jump 
-
     public float DashDis = 15f;//dash distances
     public float CoolDownDash = 3f;// cool down for dash
     bool dashing = false;
-
     private bool IsRun;
     private bool IsJump;
     private Animator PlayerAnim;
 
+    [Header("Health Settings")]
     [SerializeField] private Text HealthText;//show health
     public float Health = 5f;
     public Image HealthBar;
@@ -51,7 +52,7 @@ public class PlayerController : MonoBehaviour
     public GameObject BulletPrefab;// prefab for bullet
 
     public Transform FirePoint;// where bullet shoot
-
+    [Header("Ability Settings")]
     public float DogTimer = 15f;
     public float DogTimerMax = 15f;
     public float BirdTimer = 10f;
@@ -149,6 +150,15 @@ public class PlayerController : MonoBehaviour
                 Mode = CM.Base;
                 BirdTimer = BirdTimerMax;
             }
+        }
+
+        if (dirx == leftDirection)
+        {
+            sprite = GetComponent<SpriteRenderer>();
+            sprite.flipX = true;
+        } else
+        {
+            sprite.flipX = false;
         }
 
         
