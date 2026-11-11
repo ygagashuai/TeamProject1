@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
         Dog = 1,
         Bird = 2
     }
+
+    public float level = 0f;
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
     [Header("Movement Settings")]
@@ -60,6 +62,7 @@ public class PlayerController : MonoBehaviour
     public float currentYValue;
     public float BulletSpeed = 10f;//bullet speed
 
+    
     public CM Mode = CM.Base;//Variable for the player's current mode.
 
     
@@ -73,6 +76,7 @@ public class PlayerController : MonoBehaviour
         CurrentHealth = MaxHealth;
 
         PlayerAnim = GetComponent<Animator>();
+        
     }
 
     // Update is called once per frame
@@ -85,6 +89,7 @@ public class PlayerController : MonoBehaviour
 
         AbilityText.text = "Shoot Ability :" + ShootAbility;
 
+        Debug.Log(level);
 
 
         if (Mode == CM.Base)//Checks if player is in no forms, then changes values accordingly
@@ -156,6 +161,7 @@ public class PlayerController : MonoBehaviour
         {
             sprite = GetComponent<SpriteRenderer>();
             sprite.flipX = true;
+            
         } else
         {
             sprite.flipX = false;
