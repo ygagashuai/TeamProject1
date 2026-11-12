@@ -3,7 +3,12 @@ using UnityEngine.SceneManagement;
 
 public class StartButton : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public GameObject dog;
+
+    private void Start()
+    {
+        
+    }
 
     public void StartClick()// press button to load the game scene
     {
@@ -25,7 +30,7 @@ public class StartButton : MonoBehaviour
 
     public void NextLevel()//move to second level
     {
-        SceneManager.LoadScene("Level2");
+        SceneManager.LoadScene("Level 2");
     }
 
 

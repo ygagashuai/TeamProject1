@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 5087317388295837105}
   - component: {fileID: 5557120815701303413}
   - component: {fileID: 7610683256481002374}
+  - component: {fileID: 4670440307942214715}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -161,7 +162,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.020352662, y: 0.013567865}
+  m_Offset: {x: -0.020352662, y: 0.17184335}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -171,7 +172,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.3934796, y: 1.7598222}
+  m_Size: {x: 1.3934796, y: 1.4432713}
   m_EdgeRadius: 0
 --- !u!50 &5557120815701303413
 Rigidbody2D:
@@ -212,6 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c45aa5fe6d1e3b4eb7273fe40c48a1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  level: 0
   dirx: 0
   speed: 5
   knockbackForce: 8
@@ -238,6 +240,28 @@ MonoBehaviour:
   currentYValue: 0
   BulletSpeed: 10
   Mode: 0
+--- !u!95 &4670440307942214715
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6284469248734796840}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 61666b17f974a774db1fd7053e63a0f2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8929126507116755903
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,7 +331,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 6.55
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
