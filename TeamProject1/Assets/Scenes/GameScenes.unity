@@ -2786,7 +2786,7 @@ Transform:
   m_GameObject: {fileID: 1086550918}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.0811, y: -1.6439447, z: -1.8311365}
+  m_LocalPosition: {x: -3.0811, y: -2.2739446, z: -1.8311365}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2804,10 +2804,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b5d7c088409d9a40b7b09aa707777f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineOrbitalFollow
-  TargetOffset: {x: 0, y: 0, z: 0}
+  TargetOffset: {x: 0, y: -0.63, z: 0}
   TrackerSettings:
     BindingMode: 4
-    PositionDamping: {x: 1, y: 0.3, z: 1}
+    PositionDamping: {x: 1, y: 0.16, z: 1}
     AngularDampingMode: 0
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
@@ -2824,7 +2824,7 @@ MonoBehaviour:
       Radius: 2.5
       Height: 0.1
     SplineCurvature: 0.5
-  RecenteringTarget: 0
+  RecenteringTarget: 2
   HorizontalAxis:
     Value: 0
     Center: 0
@@ -2869,8 +2869,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineBasicMultiChannelPerlin
   NoiseProfile: {fileID: 11400000, guid: 20a705aea2d80e0478fb89b6f43d8530, type: 2}
   PivotOffset: {x: 0, y: 0, z: 0}
-  AmplitudeGain: 1
-  FrequencyGain: 1
+  AmplitudeGain: 0.5
+  FrequencyGain: 0.5
   m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!4 &1087067966 stripped
 Transform:
@@ -5672,11 +5672,11 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
   NoiseModule:
-    enabled: 0
+    enabled: 1
     strength:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: -0.71
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -5833,7 +5833,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     separateAxes: 0
-    frequency: 0.5
+    frequency: 0.18
     damping: 1
     octaves: 1
     octaveMultiplier: 0.5
@@ -6055,7 +6055,7 @@ ParticleSystem:
     positionAmount:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.32
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -6671,7 +6671,7 @@ ParticleSystem:
     m_Bounce:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -9288,7 +9288,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2540497653171870147, guid: f29470cc3e959aa40bb0e27053c160b9, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2.1
+      value: 3.2736897
       objectReference: {fileID: 0}
     - target: {fileID: 2540497653171870147, guid: f29470cc3e959aa40bb0e27053c160b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9296,7 +9296,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2540497653171870147, guid: f29470cc3e959aa40bb0e27053c160b9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.156981
+      value: -3.7438
       objectReference: {fileID: 0}
     - target: {fileID: 2540497653171870147, guid: f29470cc3e959aa40bb0e27053c160b9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9471,7 +9471,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8508571402496480731, guid: aada99eb02fb6ae4b949c94c6c632e0a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.55783105
+      value: -0.050864473
       objectReference: {fileID: 0}
     - target: {fileID: 8508571402496480731, guid: aada99eb02fb6ae4b949c94c6c632e0a, type: 3}
       propertyPath: m_LocalPosition.z
