@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
         Bird = 2
     }
 
+    public Transform cam;
     public float level = 0f;
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
