@@ -133,7 +133,7 @@ public class PlayerController : MonoBehaviour
         {
             IsJump = false;
         }
-        PlayerAnim.SetBool("IsJump", IsJump);
+        
 
         if (!dashing && !knockedBack)//player move when not dash and knockbak
         {
@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpH);
             DoubleJump -= 1;
-
+            
             
             PlayerAnim.SetBool("IsJump", IsJump);
             if (DoubleJump == 0)//after two jum, jump become false
