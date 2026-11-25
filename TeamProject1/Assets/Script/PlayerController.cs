@@ -14,10 +14,10 @@ public class PlayerController : MonoBehaviour
         Bird = 2
     }
 
+    private SpriteRenderer sprite;
     public Transform cam;
     public float level = 0f;
     private Rigidbody2D rb;
-    private SpriteRenderer sprite;
     [Header("Movement Settings")]
     public float dirx = 0f;
     private float leftDirection = -1f;
@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviour
         CurrentHealth = MaxHealth;
 
         PlayerAnim = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
         
     }
 
@@ -158,13 +159,10 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (dirx == leftDirection)
-        {
-            sprite = GetComponent<SpriteRenderer>();
+        if (dirx == -1){
             sprite.flipX = true;
-            
-        } else
-        {
+        } else {
+            sprite.flipX = false;
             sprite.flipX = false;
         }
 
@@ -175,9 +173,9 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpH);
             DoubleJump -= 1;
+            PlayerAnim.SetBool("PlayerJump",IsJump);
             
             
-            PlayerAnim.SetBool("IsJump", IsJump);
             if (DoubleJump == 0)//after two jum, jump become false
             {
                 jump = false;
